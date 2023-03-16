@@ -143,8 +143,8 @@ d3.json(CP_URL).then(function(response) {
 function updateLegend(parkingTypeCount) {
   document.querySelector(".legend").innerHTML = [
     // "<p>Updated: " + moment.unix(time).format("h:mm:ss A") + "</p>",
-    "<p class='out-of-order'>Residential Parking: " + parkingTypeCount.RESIDENTIAL + "</p>",
-    "<p class='coming-soon'>Commercial Parking: " + parkingTypeCount.COMMERCIAL + "</p>",
-    "<p class='healthy'>Private Parking: " + parkingTypeCount.PRIVATE + "</p>"
+    "<p class='residential'>Residential Parking: " + parkingTypeCount.RESIDENTIAL + "</p>",
+    "<p class='commercial'>Commercial Parking: " + parkingTypeCount.COMMERCIAL + "</p>",
+    "<p class='private'>Private Parking: " + parkingTypeCount.PRIVATE + "</p>"
   ].join("");
 }
