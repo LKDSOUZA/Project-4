@@ -89,7 +89,7 @@ d3.json(CP_URL).then(function(response) {
   let newMarker = L.markerClusterGroup();
 
   // Loop through the data.
-  for (let i = 0; i < 400; i++) {
+  for (let i = 0; i < records.length; i++) {
     // Set the data location property to a variable.
     // let location = records[i].fields.location;
     // Create a new station object with properties of both station objects.
@@ -114,6 +114,9 @@ d3.json(CP_URL).then(function(response) {
     newMarker = L.marker([parking.fields.location[0], parking.fields.location[1]], {
       icon: icons[parkingStatusCode]
     });
+    // newMarker.addLayer(L.marker([parking.fields.location[0], parking.fields.location[1]], {
+    //   icon: icons[parkingStatusCode]
+    // }));
 
     // Add the new marker to the appropriate layer.
     newMarker.addTo(layers[parkingStatusCode]);
@@ -133,7 +136,7 @@ d3.json(CP_URL).then(function(response) {
     // }
 
   }
-  myMap.addLayer(newMarker);
+  // myMap.addLayer(newMarker);
 
   // Call the updateLegend function, which will update the legend!
   updateLegend(parkingTypeCount);
