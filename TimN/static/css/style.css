@@ -27,5 +27,9 @@ body,
 }
 
 .legend .residential {
+  color: #15881f;
+}
+
+.legend .businesse {
   color: #0f3f72;
 }

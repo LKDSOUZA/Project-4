@@ -3,13 +3,14 @@ let layers = {
   PRIVATE: new L.LayerGroup(),
   RESIDENTIAL: new L.LayerGroup(),
   COMMERCIAL: new L.LayerGroup(),
+  BUSINESSE: new L.LayerGroup()
 };
 
 // Creating the map object
 let myMap = L.map("map-id", {
   center: [-37.814, 144.96332],
   zoom: 12,
-  layers: [layers.PRIVATE, layers.RESIDENTIAL,layers.COMMERCIAL]
+  layers: [layers.PRIVATE, layers.RESIDENTIAL, layers.COMMERCIAL, layers.BUSINESSE]
 });
 
 // Adding the tile layer
@@ -24,7 +25,8 @@ streetmap.addTo(myMap);
 let overlays = {
   "Private Parking": layers.PRIVATE,
   "Residential Parking": layers.RESIDENTIAL,
-  "Commercial Parking": layers.COMMERCIAL
+  "Commercial Parking": layers.COMMERCIAL,
+  "Business Establishment": layers.BUSINESSE
 };
 
 // Create a control for our layers, and add our overlays to it.
@@ -60,13 +62,25 @@ let icons = {
   RESIDENTIAL: L.ExtraMarkers.icon({
     icon: "ion-android-home",
     iconColor: "white",
-    markerColor: "blue-dark",
+    markerColor: "green",
     shape: "penta"
   })
 };
 
+// Create an object to keep the number of markers in each layer.
+let parkingTypeCount = {
+  PRIVATE: 0,
+  COMMERCIAL: 0,
+  RESIDENTIAL: 0,
+  BUSINESSE: 0
+};
+
+// Initialise stationStatusCode, which will be used as a key to access the appropriate layers, icons, and station count for the layer group.
+let parkingStatusCode;
+
 // Store the API query variables.
 let CP_URL = "https://data.melbourne.vic.gov.au/api/records/1.0/search/?dataset=off-street-car-parks-with-capacity-and-type&q=&rows=7158&sort=census_year&facet=census_year&facet=clue_small_area&facet=parking_type&refine.census_year=2021"
+let url = "https://data.melbourne.vic.gov.au/api/records/1.0/search/?dataset=business-establishments-with-address-and-industry-classification&q=&rows=10000&facet=census_year&facet=industry_anzsic4_description&refine.census_year=2021&exclude.industry_anzsic4_description=Vacant+Space";
 
 d3.json(CP_URL).then(function(response) {
   console.log(response);
@@ -76,22 +90,13 @@ d3.json(CP_URL).then(function(response) {
   // let stationStatus = statusRes.data.stations;
   // let stationInfo = infoRes.data.stations;
 
-  // Create an object to keep the number of markers in each layer.
-  let parkingTypeCount = {
-    PRIVATE: 0,
-    COMMERCIAL: 0,
-    RESIDENTIAL: 0
-  };
-  
-  // Initialise stationStatusCode, which will be used as a key to access the appropriate layers, icons, and station count for the layer group.
-  let parkingStatusCode;
-
   let newMarker = L.markerClusterGroup();
 
   // Loop through the data.
   for (let i = 0; i < records.length; i++) {
     // Set the data location property to a variable.
     // let location = records[i].fields.location;
+
     // Create a new station object with properties of both station objects.
     let parking = Object.assign({}, records[i]);
     // If a parking is residentials, it's residential.
@@ -111,19 +116,19 @@ d3.json(CP_URL).then(function(response) {
     parkingTypeCount[parkingStatusCode]++;
 
     // Create a new marker with the appropriate icon and coordinates.
-    newMarker = L.marker([parking.fields.location[0], parking.fields.location[1]], {
-      icon: icons[parkingStatusCode]
-    });
-    // newMarker.addLayer(L.marker([parking.fields.location[0], parking.fields.location[1]], {
+    // newMarker = L.marker([parking.fields.location[0], parking.fields.location[1]], {
     //   icon: icons[parkingStatusCode]
-    // }));
+    // });
+    newMarker.addLayer(L.marker([parking.fields.location[0], parking.fields.location[1]], {
+      icon: icons[parkingStatusCode]
+    }).bindPopup(parking.fields.building_address));
 
     // Add the new marker to the appropriate layer.
     newMarker.addTo(layers[parkingStatusCode]);
 
     // Bind a popup to the marker that will  display on being clicked. This will be rendered as HTML.
     // newMarker.bindPopup(station.name + "<br> Capacity: " + station.capacity + "<br>" + station.num_bikes_available + " Bikes Available");
-    newMarker.bindPopup(parking.fields.building_address); 
+    // newMarker.bindPopup(parking.fields.building_address); 
 
 
     
@@ -142,12 +147,42 @@ d3.json(CP_URL).then(function(response) {
   updateLegend(parkingTypeCount);
 });
 
+d3.json(url).then(function(response) {
+
+  //console.log(response);
+  let bisnis = response.records;
+  let test = L.markerClusterGroup();
+
+  console.log(bisnis);
+  // let test;
+  for (let index = 0; index < bisnis.length; index++) {
+
+    let location = bisnis[index];
+    if (location.fields.trading_name) {
+        // console.log(location);
+        parkingStatusCode = "BUSINESSE";
+        // console.log(parkingStatusCode);
+        // test = L.marker([location.fields.location[0], location.fields.location[1]]);
+        
+    }
+      
+    parkingTypeCount[parkingStatusCode]++;
+    test.addLayer(L.marker([location.fields.location[0], location.fields.location[1]]).bindPopup(location.fields.trading_name));
+    test.addTo(layers[parkingStatusCode]);
+    
+  }
+  updateLegend(parkingTypeCount);
+  // createMap(L.layerGroup(BUSINESSE));
+});
+
+
 // Update the legend's innerHTML with the last updated time and station count.
 function updateLegend(parkingTypeCount) {
   document.querySelector(".legend").innerHTML = [
     // "<p>Updated: " + moment.unix(time).format("h:mm:ss A") + "</p>",
     "<p class='residential'>Residential Parking: " + parkingTypeCount.RESIDENTIAL + "</p>",
     "<p class='commercial'>Commercial Parking: " + parkingTypeCount.COMMERCIAL + "</p>",
-    "<p class='private'>Private Parking: " + parkingTypeCount.PRIVATE + "</p>"
+    "<p class='private'>Private Parking: " + parkingTypeCount.PRIVATE + "</p>",
+    "<p class='businesse'>Business Establishment: " + parkingTypeCount.BUSINESSE + "</p>"
   ].join("");
 }
