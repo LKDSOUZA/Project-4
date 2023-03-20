@@ -186,3 +186,18 @@ function updateLegend(parkingTypeCount) {
     "<p class='businesse'>Business Establishment: " + parkingTypeCount.BUSINESSE + "</p>"
   ].join("");
 }
+
+let marker = L.marker([-37.8209, 144.9572]);
+marker.addTo(myMap);
+
+myMap.on('click', function (e) {
+  console.log(e)
+  L.marker([e.latlng.lat, e.latlng.lng]).addTo(myMap);
+
+  L.Routing.control({
+    waypoints: [
+      L.latLng(-37.8209, 144.9572),
+      L.latLng(e.latlng.lat, e.latlng.lng)
+    ]
+  }).addTo(myMap);
+});
