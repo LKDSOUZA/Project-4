@@ -63,4 +63,3 @@ d3.json(CP_URL).then(function(response) {
   }
   myMap.addLayer(markers);
 });
-
