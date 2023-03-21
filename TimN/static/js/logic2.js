@@ -79,49 +79,50 @@ let parkingTypeCount = {
 let parkingStatusCode;
 
 // Store the API query variables.
-let CP_URL = "https://data.melbourne.vic.gov.au/api/records/1.0/search/?dataset=off-street-car-parks-with-capacity-and-type&q=&rows=7158&sort=census_year&facet=census_year&facet=clue_small_area&facet=parking_type&refine.census_year=2021"
-let url = "https://data.melbourne.vic.gov.au/api/records/1.0/search/?dataset=business-establishments-with-address-and-industry-classification&q=&rows=10000&facet=census_year&facet=industry_anzsic4_description&refine.census_year=2021&exclude.industry_anzsic4_description=Vacant+Space";
+let CP_URL = "http://127.0.0.1:5000/api/v1.0/Parking";
+let url = "http://127.0.0.1:5000/api/v1.0/Business";
 
 d3.json(CP_URL).then(function(response) {
   console.log(response);
   
-  let records = response.records;
-  console.log(records);
-  // let stationStatus = statusRes.data.stations;
-  // let stationInfo = infoRes.data.stations;
+  let records = response;
 
   let newMarker = L.markerClusterGroup();
 
   // Loop through the data.
-  for (let i = 0; i < records.length; i++) {
+  for (let i = 0; i < 2551; i++) {
     // Set the data location property to a variable.
     // let location = records[i].fields.location;
 
-    // Create a new station object with properties of both station objects.
+    // Create a new parking object with properties of both parking objects.
     let parking = Object.assign({}, records[i]);
     // If a parking is residentials, it's residential.
-    if (parking.fields.parking_type == "Residential") {
+    if (parking.parking_type == "Residential") {
       parkingStatusCode = "RESIDENTIAL";
+      // console.log(parkingStatusCode);
     }
     // If parking is commercials, it's commercial.
-    else if (parking.fields.parking_type == "Commercial") {
+    else if (parking.parking_type == "Commercial") {
       parkingStatusCode = "COMMERCIAL";
+      // console.log(parkingStatusCode);
     }
-    // If a station is private, it's private.
-    else if (parking.fields.parking_type == "Private") {
+    // If a parking is private, it's private.
+    else if (parking.parking_type == "Private") {
       parkingStatusCode = "PRIVATE";
+      // console.log(parkingStatusCode);
     }
 
-    // Update the station count.
+    // Update the parking count.
     parkingTypeCount[parkingStatusCode]++;
 
     // Create a new marker with the appropriate icon and coordinates.
     // newMarker = L.marker([parking.fields.location[0], parking.fields.location[1]], {
     //   icon: icons[parkingStatusCode]
     // });
-    newMarker.addLayer(L.marker([parking.fields.location[0], parking.fields.location[1]], {
+    newMarker.addLayer(L.marker([parking.latitude, parking.longitude], {
       icon: icons[parkingStatusCode]
-    }).bindPopup(parking.fields.building_address));
+    }).bindPopup(`<h3>${parking.parking_spaces}</h3> <hr> <h3> <button onclick="print()">start</button> <button onclick="print()">kesini</button> </h3>`));
+    
 
     // Add the new marker to the appropriate layer.
     newMarker.addTo(layers[parkingStatusCode]);
@@ -130,8 +131,6 @@ d3.json(CP_URL).then(function(response) {
     // newMarker.bindPopup(station.name + "<br> Capacity: " + station.capacity + "<br>" + station.num_bikes_available + " Bikes Available");
     // newMarker.bindPopup(parking.fields.building_address); 
 
-
-    
     // console.log(location);
     // // Check for the location property.
     // if (location) {
@@ -149,27 +148,26 @@ d3.json(CP_URL).then(function(response) {
 
 d3.json(url).then(function(response) {
 
-  //console.log(response);
-  let bisnis = response.records;
+  // console.log(response);
+  let bisnis = response;
   let test = L.markerClusterGroup();
 
   console.log(bisnis);
   // let test;
-  for (let index = 0; index < bisnis.length; index++) {
+  for (let index = 0; index < 1670; index++) {
 
-    let location = bisnis[index];
-    if (location.fields.trading_name) {
-        // console.log(location);
+    let location = Object.assign({},bisnis[index]);
+    if (location.business_address) {
+        // console.log(location.latitude);
         parkingStatusCode = "BUSINESSE";
         // console.log(parkingStatusCode);
         // test = L.marker([location.fields.location[0], location.fields.location[1]]);
         
     }
-      
     parkingTypeCount[parkingStatusCode]++;
-    test.addLayer(L.marker([location.fields.location[0], location.fields.location[1]]).bindPopup(location.fields.trading_name));
+    test.addLayer(L.marker([location.latitude, location.longitude]).bindPopup(`<h3>${location.business_address}</h3> <hr> <h3> <button onclick="print()">start</button> <button onclick="keSini(latLng)">ke sini</button> </h3>`));
     test.addTo(layers[parkingStatusCode]);
-    
+      
   }
   updateLegend(parkingTypeCount);
   // createMap(L.layerGroup(BUSINESSE));
@@ -187,17 +185,23 @@ function updateLegend(parkingTypeCount) {
   ].join("");
 }
 
-let marker = L.marker([-37.8209, 144.9572]);
-marker.addTo(myMap);
+// let marker = L.marker([-37.810140000000004, 144.98433]);
+// marker.addTo(myMap);
 
-myMap.on('click', function (e) {
-  console.log(e)
-  L.marker([e.latlng.lat, e.latlng.lng]).addTo(myMap);
+// myMap.on('click', function (e) {
+//   console.log(e)
+//   L.marker([e.latlng.lat, e.latlng.lng]).addTo(myMap);
 
-  L.Routing.control({
-    waypoints: [
-      L.latLng(-37.8209, 144.9572),
-      L.latLng(e.latlng.lat, e.latlng.lng)
-    ]
-  }).addTo(myMap);
-});
+//   var control = L.Routing.control({
+//     waypoints: [
+//       L.latLng(-37.8209, 144.9572),
+//       L.latLng(e.latlng.lat, e.latlng.lng)
+//     ]
+//   })
+// control.addTo(myMap); 
+// });
+
+// function keSini(latLconrong){
+//   var latLng = L.latLng(e.latlng.lat, e.latlng.lng)
+//   control.spliceWaypoints(control.getWaypoints().length -1, 1, latLng);
+// }
