@@ -53,14 +53,14 @@ def names():
 
     
     # Query all parking data
-    results = session.query(Parking.census_year,Parking.block_id,Parking.parking_type,Parking.parking_spaces,Parking.longitude,Parking.latitude).all()
+    results = session.query(Parking.census_year,Parking.block_id,Parking.parking_type,Parking.parking_spaces,Parking.longitude,Parking.latitude,Parking.building_address).all()
 
     session.close()
 
     
     # Create a dictionary from the row data and append to a list of all_parkings
     all_parkings = []
-    for census_year,block_id,parking_type,parking_spaces,longitude,latitude in results:
+    for census_year,block_id,parking_type,parking_spaces,longitude,latitude,building_address in results:
         parking_dict = {}
         parking_dict["census_year"] = census_year
         parking_dict["block_id"] = block_id
@@ -68,6 +68,7 @@ def names():
         parking_dict["parking_spaces"] = parking_spaces
         parking_dict["longitude"] = longitude
         parking_dict["latitude"] = latitude
+        parking_dict["building_address"] = building_address
         all_parkings.append(parking_dict)
 
     return jsonify(all_parkings)
@@ -79,20 +80,21 @@ def business():
 
     
     # Query all business data
-    results = session.query(Business.census_year,Business.block_id,Business.longitude, Business.latitude, Business.business_address).all()
+    results = session.query(Business.census_year,Business.block_id,Business.longitude, Business.latitude, Business.business_address, Business.trading_name).all()
 
     session.close()
 
     
     # Create a dictionary from the row data and append to a list of all_parkings
     all_business = []
-    for census_year,block_id,longitude,latitude, business_address in results:
+    for census_year,block_id,longitude,latitude, business_address, trading_name in results:
         business_dict = {}
         business_dict["census_year"] = census_year
         business_dict["block_id"] = block_id
         business_dict["longitude"] = longitude
         business_dict["latitude"] = latitude
         business_dict["business_address"]= business_address
+        business_dict["trading_name"] = trading_name
 
         all_business.append(business_dict)
 

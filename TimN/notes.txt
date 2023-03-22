@@ -7,6 +7,9 @@ body.sb-sidenav-toggled #wrapper #sidebar-wrapper {
   }
 }
 
+.list-group-flush > .list-group-item:last-child {
+  border-bottom-width: 0 0 1px;
+
 can we change value in database?
 in flask parking api.. all latitude and longitude are the same
 need to add trading name in business database and flask
