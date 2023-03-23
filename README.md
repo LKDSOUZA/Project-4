@@ -28,6 +28,10 @@ Our project pipeline is as follows:
 ## Sample output
 We have used plotly to generate the following analysis:
 <img width="992" alt="image" src="https://user-images.githubusercontent.com/73529437/227119333-7a516053-7ca0-4948-9971-f09d23a2d1cf.png">
+<img width="497" alt="image" src="https://user-images.githubusercontent.com/73529437/227124438-ef835c04-b4cd-4b66-a868-0294768bf5d5.png">
+<img width="949" alt="image" src="https://user-images.githubusercontent.com/73529437/227124635-6ebb9cdf-6f13-4170-b237-4bd024ba6398.png">
+
+
 
 
 ## Data source  
