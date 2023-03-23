@@ -89,8 +89,8 @@ d3.json(CP_URL).then(function(response) {
 
   let newMarker = L.markerClusterGroup();
 
-  // Loop through the data.
-  for (let i = 0; i < 500; i++) {
+  // Loop through the data to be assigned to the each parking layer group, update legend, and add markers to map
+  for (let i = 0; i < 1000; i++) {
     // Set the data location property to a variable.
     // let location = records[i].fields.location;
 
@@ -120,7 +120,7 @@ d3.json(CP_URL).then(function(response) {
       icon: icons[parkingStatusCode]
     }).bindPopup(`<h3>parking space available: ${parking.parking_spaces}</h3> <hr>
         <h3>${parking.building_address}</h3> <hr> 
-        <h3> <button onclick="print()">start</button> <button onclick="print()">kesini</button> </h3>`));
+        <h3> <button class="sdest">Pickup Point</button> <button class="edest">Destination</button> <button class="refresh">Refresh Nav</button> </h3>`));
     // Add the new marker to the appropriate layer.
     newMarker.addTo(layers[parkingStatusCode]);
   }
@@ -138,17 +138,17 @@ d3.json(url).then(function(response) {
   // const ul = document.querySelector('.list');
   console.log(bisnis);
   // let test;
-  for (let index = 0; index < 500; index++) {
+  for (let index = 0; index < 750; index++) {
 
     let location = Object.assign({},bisnis[index]);
-    if (location.trading_name!= "Vacant" ) {
+    if (location.trading_name ) {
         // console.log(location.latitude);
         parkingStatusCode = "BUSINESSE";
         // console.log(parkingStatusCode);
         // test = L.marker([location.fields.location[0], location.fields.location[1]]); 
     }
     parkingTypeCount[parkingStatusCode]++;
-    test.addLayer(L.marker([location.latitude, location.longitude]).bindPopup(`<div><h3>${location.trading_name}</h3> <hr> <h4>${location.business_address}</h4> <hr> <p> <button onclick="print()">start</button> <button onclick="return keSini(location)">ke sini</button> </p><div>`));
+    test.addLayer(L.marker([location.latitude, location.longitude]).bindPopup(`<div><h3>${location.trading_name}</h3> <hr> <h4>${location.business_address}</h4> <hr> <p> <button class="sdest">Pickup Point</button> <button class ="edest">Destination</button> <button class="refresh">Refresh Nav</button></p><div>`));
     test.addTo(layers[parkingStatusCode]);
       
   }
@@ -173,7 +173,7 @@ function populateOffice() {
   let bisnis = response;  
   const ul = document.querySelector('.list');
 
-    for (let index = 0; index < 150; index++) {
+    for (let index = 0; index < 300; index++) {
         let location = Object.assign({},bisnis[index]);
         const li = document.createElement('li');
         const div = document.createElement('div');
@@ -207,28 +207,61 @@ function flyToOffice(location){
   setTimeout(() => {
     L.popup({closeButton: true, offset: L.point (0, -8)})
         .setLatLng([lat,lng])
-        .setContent((`<div><h3>${location.trading_name}</h3> <hr> <h4>${location.business_address}</h4> <hr> <p> <button onclick="print()">start</button> <button onclick="return keSini(location)">ke sini</button> </p><div>`))
+        .setContent((`<div id = "map"><h3>${location.trading_name}</h3> <hr> <h4>${location.business_address}</h4> <hr> <p> <button class ="sdest">Pickup Point</button> 
+        <button class ="edest" >Destination</button> <button class="refresh">Refresh Nav</button>
+        </p><div>`))
         .openOn(myMap)
   }, 3000);
 }
 
-// let marker = L.marker([-37.810140000000004, 144.98433]);
-// marker.addTo(myMap);
+var start;
+var end;
 
-myMap.on('click', function (e) {
-  console.log(e)
-  L.marker([e.latlng.lat, e.latlng.lng]).addTo(myMap);
+function updateRoute() {
+  control.setWaypoints([
+    start ? L.latLng(start) : null,
+    end ? L.latLng(end) : null
+  ]);
+}
+
+myMap.on('popupopen', function(e) {
+  $('.edest').click(function() {
+      var latt = e.popup._latlng.lat;
+      var lngg = e.popup._latlng.lng;
+      end = { lat: latt, lng: lngg };
+      console.log(end);
+      updateRoute();
+  });
+});
+
+myMap.on('popupopen', function(e) {
+  $('.sdest').click(function() {
+      var latt = e.popup._latlng.lat;
+      var lngg = e.popup._latlng.lng;
+      start = { lat: latt, lng: lngg };
+      console.log(start);
+      updateRoute();
+  });
+});
 
 var control = L.Routing.control({
-    waypoints: [
-      L.latLng(-37.8209, 144.9572),
-      L.latLng(e.latlng.lat, e.latlng.lng)
-    ]
+  waypoints: [
+    start ? L.latLng(start) : null,
+    end ? L.latLng(end) : null
+  ]
 });
-control.addTo(myMap); 
-});
+control.addTo(myMap);
 
-function keSini(location){
-  var latLng = L.latLng(location.latitude,location.longitude);
-  control.spliceWaypoints(control.getWaypoints().length -1, 1, latLng);
-}
+// add the following code to refresh the routing:
+// $('.refresh').click(function()
+myMap.on('popupopen', function () {
+  $('.refresh').click(function(){
+  start = null;
+  end  = null;
+  control.spliceWaypoints(0, 2); // remove the existing waypoints
+  control.setWaypoints([
+      start ? L.latLng(start) : null,
+      end ? L.latLng(end) : null
+  ]);
+ }); // set the new waypoints
+});
