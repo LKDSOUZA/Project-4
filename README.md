@@ -29,13 +29,16 @@ Our project pipeline is as follows:
 <img width="1109" alt="image" src="https://user-images.githubusercontent.com/73529437/227118775-ec804583-c62d-4af4-b166-42f3eecc8f84.png">
 
 ## Sample output
-We have used plotly to generate the following analysis:
-<img width="992" alt="image" src="https://user-images.githubusercontent.com/73529437/227119333-7a516053-7ca0-4948-9971-f09d23a2d1cf.png">
+Plotly is used for the following analysis:
+Number of Parking Spaces by Parking Types
 <img width="497" alt="image" src="https://user-images.githubusercontent.com/73529437/227124438-ef835c04-b4cd-4b66-a868-0294768bf5d5.png">
+Number of Parking Spaces in each Area
 <img width="949" alt="image" src="https://user-images.githubusercontent.com/73529437/227124635-6ebb9cdf-6f13-4170-b237-4bd024ba6398.png">
-
-
-
+Growth by Census Year - Parking Spaces
+<img width="653" alt="image" src="https://user-images.githubusercontent.com/73529437/227126714-7b59fd3f-6de8-44c3-9baa-d4b3588c8bf7.png">
+Growth by Census Year - New Businesses
+<img width="463" alt="image" src="https://user-images.githubusercontent.com/73529437/227126866-64c959df-7eb5-4a15-9f81-d62325082af7.png">
+Leaflet is used for the following analysis:
 
 ## Data source  
 https://data.melbourne.vic.gov.au/explore/dataset/off-street-car-parks-with-capacity-and-type/table/?sort=census_year  
