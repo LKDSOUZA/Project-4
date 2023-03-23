@@ -31,14 +31,14 @@ Our project pipeline is as follows:
 <img width="1280" alt="image" src="https://user-images.githubusercontent.com/73529437/227128400-62bb8bc5-13ae-44a0-8c1c-aa24b6e5eecc.png">  
 
 ## Sample output
-Plotly is used for the following analysis:   
+### Plotly is used for the following analysis:   
 <img width="497" alt="image" src="https://user-images.githubusercontent.com/73529437/227124438-ef835c04-b4cd-4b66-a868-0294768bf5d5.png">  
 <img width="949" alt="image" src="https://user-images.githubusercontent.com/73529437/227124635-6ebb9cdf-6f13-4170-b237-4bd024ba6398.png">  
 
-### Growth by Census Year - Parking Spaces  
+#### Growth by Census Year - Parking Spaces  
 <img width="653" alt="image" src="https://user-images.githubusercontent.com/73529437/227126714-7b59fd3f-6de8-44c3-9baa-d4b3588c8bf7.png">  
 
-### Growth by Census Year - New Businesses  
+#### Growth by Census Year - New Businesses  
 <img width="463" alt="image" src="https://user-images.githubusercontent.com/73529437/227126866-64c959df-7eb5-4a15-9f81-d62325082af7.png"> 
 
 ### Leaflet is used for the following analysis   
@@ -46,9 +46,9 @@ Plotly is used for the following analysis:
 
 ## Challenges  
 1. Flask: Cross-Origin Resources needed to be enabled. Few steps to fix the issue: ºº
-- Step 1:pip install flask-cors
-- Step 2:from flask_cors import CORS
--Step 3:from flask import Flask
+- Step 1: pip install flask-cors
+- Step 2: from flask_cors import CORS
+- Step 3: from flask import Flask
 from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
