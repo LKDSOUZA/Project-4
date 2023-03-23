@@ -1,14 +1,14 @@
 # Project-4  
-# Off Street Car park around Business establishments in Melbourne CBD
+## Off Street Car park around Business establishments in Melbourne CBD
 
 ## How to  
 Sumit norat plenum figma  
 
 ## Team members
-Javier Gausachs
-Timo Nugraha
-Lachlan D'Souza
-Zakia Afrin Aziz
+- Javier Gausachs
+- Timo Nugraha
+- Lachlan D'Souza
+- Zakia Afrin Aziz
 
 ## Project pipeline
 Our project pipeline is as follows:
