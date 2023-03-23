@@ -31,7 +31,7 @@ https://data.melbourne.vic.gov.au/explore/dataset/business-establishments-with-a
 ## Project pipeline
 Our project pipeline is as follows:
 <img width="1109" alt="image" src="https://user-images.githubusercontent.com/73529437/227118775-ec804583-c62d-4af4-b166-42f3eecc8f84.png">  
-![image](https://user-images.githubusercontent.com/73529437/227128164-d43efc53-8577-43ce-be3c-b76b95d76ecf.png)  
+<img width="1280" alt="image" src="https://user-images.githubusercontent.com/73529437/227128400-62bb8bc5-13ae-44a0-8c1c-aa24b6e5eecc.png">  
 
 ## Sample output
 Plotly is used for the following analysis:
