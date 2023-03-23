@@ -79,100 +79,81 @@ let parkingTypeCount = {
 let parkingStatusCode;
 
 // Store the API query variables.
-let CP_URL = "https://data.melbourne.vic.gov.au/api/records/1.0/search/?dataset=off-street-car-parks-with-capacity-and-type&q=&rows=7158&sort=census_year&facet=census_year&facet=clue_small_area&facet=parking_type&refine.census_year=2021"
-let url = "https://data.melbourne.vic.gov.au/api/records/1.0/search/?dataset=business-establishments-with-address-and-industry-classification&q=&rows=10000&facet=census_year&facet=industry_anzsic4_description&refine.census_year=2021&exclude.industry_anzsic4_description=Vacant+Space";
+let CP_URL = "http://127.0.0.1:5000/api/v1.0/Parking";
+let url = "http://127.0.0.1:5000/api/v1.0/Business";
 
 d3.json(CP_URL).then(function(response) {
   console.log(response);
   
-  let records = response.records;
-  console.log(records);
-  // let stationStatus = statusRes.data.stations;
-  // let stationInfo = infoRes.data.stations;
+  let records = response;
 
   let newMarker = L.markerClusterGroup();
 
-  // Loop through the data.
-  for (let i = 0; i < records.length; i++) {
+  // Loop through the data to be assigned to the each parking layer group, update legend, and add markers to map
+  for (let i = 0; i < 1000; i++) {
     // Set the data location property to a variable.
     // let location = records[i].fields.location;
 
-    // Create a new station object with properties of both station objects.
+    // Create a new parking object with properties of both parking objects.
     let parking = Object.assign({}, records[i]);
     // If a parking is residentials, it's residential.
-    if (parking.fields.parking_type == "Residential") {
+    if (parking.parking_type == "Residential") {
       parkingStatusCode = "RESIDENTIAL";
+      // console.log(parkingStatusCode);
     }
     // If parking is commercials, it's commercial.
-    else if (parking.fields.parking_type == "Commercial") {
+    else if (parking.parking_type == "Commercial") {
       parkingStatusCode = "COMMERCIAL";
+      // console.log(parkingStatusCode);
     }
-    // If a station is private, it's private.
-    else if (parking.fields.parking_type == "Private") {
+    // If a parking is private, it's private.
+    else if (parking.parking_type == "Private") {
       parkingStatusCode = "PRIVATE";
+      // console.log(parkingStatusCode);
     }
 
-    // Update the station count.
+    // Update the parking count.
     parkingTypeCount[parkingStatusCode]++;
 
     // Create a new marker with the appropriate icon and coordinates.
-    // newMarker = L.marker([parking.fields.location[0], parking.fields.location[1]], {
-    //   icon: icons[parkingStatusCode]
-    // });
-    newMarker.addLayer(L.marker([parking.fields.location[0], parking.fields.location[1]], {
+    newMarker.addLayer(L.marker([parking.latitude, parking.longitude], {
       icon: icons[parkingStatusCode]
-    }).bindPopup(parking.fields.building_address));
-
+    }).bindPopup(`<h3>parking space available: ${parking.parking_spaces}</h3> <hr>
+        <h3>${parking.building_address}</h3> <hr> 
+        <h3> <button class="sdest">Pickup Point</button> <button class="edest">Destination</button> <button class="refresh">Refresh Nav</button> </h3>`));
     // Add the new marker to the appropriate layer.
     newMarker.addTo(layers[parkingStatusCode]);
-
-    // Bind a popup to the marker that will  display on being clicked. This will be rendered as HTML.
-    // newMarker.bindPopup(station.name + "<br> Capacity: " + station.capacity + "<br>" + station.num_bikes_available + " Bikes Available");
-    // newMarker.bindPopup(parking.fields.building_address); 
-
-
-    
-    // console.log(location);
-    // // Check for the location property.
-    // if (location) {
-
-    //   // Add a new marker to the cluster group, and bind a popup.
-    //   markers.addLayer(L.marker([location[0], location[1]]).bindPopup(records[i].fields.building_address));
-    // }
-
   }
-  // myMap.addLayer(newMarker);
 
   // Call the updateLegend function, which will update the legend!
   updateLegend(parkingTypeCount);
 });
 
+//iterate Business API to display Business map
 d3.json(url).then(function(response) {
 
-  //console.log(response);
-  let bisnis = response.records;
+  // console.log(response);
+  let bisnis = response;
   let test = L.markerClusterGroup();
-
+  // const ul = document.querySelector('.list');
   console.log(bisnis);
   // let test;
-  for (let index = 0; index < bisnis.length; index++) {
+  for (let index = 0; index < 750; index++) {
 
-    let location = bisnis[index];
-    if (location.fields.trading_name) {
-        // console.log(location);
+    let location = Object.assign({},bisnis[index]);
+    if (location.trading_name ) {
+        // console.log(location.latitude);
         parkingStatusCode = "BUSINESSE";
         // console.log(parkingStatusCode);
-        // test = L.marker([location.fields.location[0], location.fields.location[1]]);
-        
+        // test = L.marker([location.fields.location[0], location.fields.location[1]]); 
     }
-      
     parkingTypeCount[parkingStatusCode]++;
-    test.addLayer(L.marker([location.fields.location[0], location.fields.location[1]]).bindPopup(location.fields.trading_name));
+    test.addLayer(L.marker([location.latitude, location.longitude]).bindPopup(`<div><h3>${location.trading_name}</h3> <hr> <h4>${location.business_address}</h4> <hr> <p> <button class="sdest">Pickup Point</button> <button class ="edest">Destination</button> <button class="refresh">Refresh Nav</button></p><div>`));
     test.addTo(layers[parkingStatusCode]);
-    
+      
   }
   updateLegend(parkingTypeCount);
-  // createMap(L.layerGroup(BUSINESSE));
+  
 });
 
 
@@ -187,17 +168,100 @@ function updateLegend(parkingTypeCount) {
   ].join("");
 }
 
-let marker = L.marker([-37.8209, 144.9572]);
-marker.addTo(myMap);
+function populateOffice() {
+  d3.json(url).then(function(response) {
+  let bisnis = response;  
+  const ul = document.querySelector('.list');
 
-myMap.on('click', function (e) {
-  console.log(e)
-  L.marker([e.latlng.lat, e.latlng.lng]).addTo(myMap);
+    for (let index = 0; index < 300; index++) {
+        let location = Object.assign({},bisnis[index]);
+        const li = document.createElement('li');
+        const div = document.createElement('div');
+        const a = document.createElement('a');
+        const p = document.createElement('p');
+        a.addEventListener('click', () =>{
+            flyToOffice(location);
+        });
 
-  L.Routing.control({
-    waypoints: [
-      L.latLng(-37.8209, 144.9572),
-      L.latLng(e.latlng.lat, e.latlng.lng)
-    ]
-  }).addTo(myMap);
+        div.classList.add('office-item');
+        a.innerText = location.trading_name;
+        a.href = '#';
+        p.innerText = location.business_address;
+
+        div.appendChild(a);
+        div.appendChild(p);
+        li.appendChild(div);
+        ul.appendChild(li);
+      
+    }}
+  );
+}
+populateOffice();
+
+function flyToOffice(location){
+  const lat = location.latitude;
+  const lng = location.longitude;
+  myMap.flyTo([lat,lng], 18, {
+    duration: 3
+  });
+  setTimeout(() => {
+    L.popup({closeButton: true, offset: L.point (0, -8)})
+        .setLatLng([lat,lng])
+        .setContent((`<div id = "map"><h3>${location.trading_name}</h3> <hr> <h4>${location.business_address}</h4> <hr> <p> <button class ="sdest">Pickup Point</button> 
+        <button class ="edest" >Destination</button> <button class="refresh">Refresh Nav</button>
+        </p><div>`))
+        .openOn(myMap)
+  }, 3000);
+}
+
+var start;
+var end;
+
+function updateRoute() {
+  control.setWaypoints([
+    start ? L.latLng(start) : null,
+    end ? L.latLng(end) : null
+  ]);
+}
+
+myMap.on('popupopen', function(e) {
+  $('.edest').click(function() {
+      var latt = e.popup._latlng.lat;
+      var lngg = e.popup._latlng.lng;
+      end = { lat: latt, lng: lngg };
+      console.log(end);
+      updateRoute();
+  });
+});
+
+myMap.on('popupopen', function(e) {
+  $('.sdest').click(function() {
+      var latt = e.popup._latlng.lat;
+      var lngg = e.popup._latlng.lng;
+      start = { lat: latt, lng: lngg };
+      console.log(start);
+      updateRoute();
+  });
+});
+
+var control = L.Routing.control({
+  waypoints: [
+    start ? L.latLng(start) : null,
+    end ? L.latLng(end) : null
+  ]
+});
+control.addTo(myMap);
+
+// add the following code to refresh the routing:
+// $('.refresh').click(function()
+myMap.on('popupopen', function () {
+  $('.refresh').click(function(){
+  start = null;
+  end  = null;
+  control.spliceWaypoints(0, 2); // remove the existing waypoints
+  control.setWaypoints([
+      start ? L.latLng(start) : null,
+      end ? L.latLng(end) : null
+  ]);
+ }); // set the new waypoints
 });

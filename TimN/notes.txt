@@ -1,0 +1,16 @@
+<!-- <canvas id="myChart" style="width:100%;max-width:600px"></canvas> -->
+what is this on index.html..
+
+syles.css change below to -26.5 for toggle menu
+body.sb-sidenav-toggled #wrapper #sidebar-wrapper {
+    margin-left: -26.5rem;
+  }
+}
+
+.list-group-flush > .list-group-item:last-child {
+  border-bottom-width: 0 0 1px;
+
+can we change value in database?
+in flask parking api.. all latitude and longitude are the same
+need to add trading name in business database and flask
+need to add business address and parking space in parking database and flask
