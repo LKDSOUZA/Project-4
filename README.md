@@ -41,7 +41,7 @@ Our project pipeline is as follows:
 #### Growth by Census Year - New Businesses  
 <img width="463" alt="image" src="https://user-images.githubusercontent.com/73529437/227126866-64c959df-7eb5-4a15-9f81-d62325082af7.png"> 
 
-### Leaflet is used for the following analysis   
+### Leaflet is used for the following analysis:     
 <img width="1404" alt="image" src="https://user-images.githubusercontent.com/73529437/227131608-5e6a176c-bfa2-47b1-b33f-7bdc4a3f340e.png">  
 
 ## Challenges  
