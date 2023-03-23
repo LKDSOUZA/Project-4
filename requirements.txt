@@ -1,4 +1,4 @@
-pip install flask_cors
+pip install -U flask-cors
 
 To run: Run the "app.py" file.
 
