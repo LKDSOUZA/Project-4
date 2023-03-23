@@ -13,7 +13,7 @@ from flask_cors import CORS
 #################################################
 # Database Setup
 #################################################
-engine = create_engine("sqlite:///offstreetcarpark.sqlite")
+engine = create_engine("sqlite:///webapp/offstreetcarpark.sqlite")
 
 # reflect an existing database into a new model
 Base = automap_base()
