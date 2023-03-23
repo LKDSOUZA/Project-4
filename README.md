@@ -39,7 +39,8 @@ Plotly is used for the following analysis:
 ### Growth by Census Year - New Businesses  
 <img width="463" alt="image" src="https://user-images.githubusercontent.com/73529437/227126866-64c959df-7eb5-4a15-9f81-d62325082af7.png">  
 ### Leaflet is used for the following analysis:  
-![image](https://user-images.githubusercontent.com/73529437/227129965-9597cafc-ad3b-4da1-af41-54b0f2a9c728.png)
+![image](https://user-images.githubusercontent.com/73529437/227130276-b376e5a1-5c3c-4b35-ac3b-8311fbd30831.jpg)
+
 
 ## Challenges
 1. Flask: Cross-Origin Resources needed to be enabled. Few steps to fix the issue: 
