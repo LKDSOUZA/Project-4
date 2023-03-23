@@ -1,4 +1,5 @@
-# Project-4 : Off Street Car park around Business establishments in Melbourne CBD. 
+# Project-4  
+# Off Street Car park around Business establishments in Melbourne CBD
 
 ## How to  
 Sumit norat plenum figma  
@@ -10,6 +11,7 @@ Lachlan D'Souza
 Zakia Afrin Aziz
 
 ## Project pipeline
+Our project pipeline is as follows:
 <img width="1109" alt="image" src="https://user-images.githubusercontent.com/73529437/227118775-ec804583-c62d-4af4-b166-42f3eecc8f84.png">
 
 ## Data source  
