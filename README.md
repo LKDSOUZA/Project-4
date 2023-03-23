@@ -44,5 +44,13 @@ Plotly is used for the following analysis:
 ### Leaflet is used for the following analysis:  
 ![image](https://user-images.githubusercontent.com/73529437/227127668-8e79a1c0-cff1-4ab5-aecd-d5d7e15b3c60.png)
 
-
+## Challenges
+1. Flask: Cross-Origin Resources needed to be enabled. Few steps to fix the issue: 
+- Step 1:pip install flask-cors
+- Step 2:from flask_cors import CORS
+-Step 3:from flask import Flask
+from flask_cors import CORS
+app = Flask(__name__)
+CORS(app)
+2. Interactive Dashboard: Large Data set takes time to load, Drawing relationship between two different datasets
 
