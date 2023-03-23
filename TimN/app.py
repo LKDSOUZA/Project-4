@@ -6,7 +6,6 @@ from sqlalchemy import create_engine, func, and_
 from flask import (
     Flask, 
     jsonify,
-    render_template,
     request,
     redirect)
 from flask_cors import CORS
@@ -28,7 +27,10 @@ Business = Base.classes.business
 #################################################
 # Flask Setup
 #################################################
+from app_blueprint import app_blueprint
+
 app = Flask(__name__)
+app.register_blueprint(app_blueprint)
 CORS(app)
 
 
@@ -36,7 +38,7 @@ CORS(app)
 # Flask Routes
 #################################################
 
-@app.route("/", methods=['GET'])
+@app.route("/api", methods=['GET'])
 def welcome():
     """List all available api routes."""
     return (
@@ -53,14 +55,14 @@ def names():
 
     
     # Query all parking data
-    results = session.query(Parking.census_year,Parking.block_id,Parking.parking_type,Parking.parking_spaces,Parking.longitude,Parking.latitude,Parking.building_address).all()
+    results = session.query(Parking.census_year,Parking.block_id,Parking.parking_type,Parking.parking_spaces,Parking.longitude,Parking.latitude,Parking.building_address,Parking.clue_small_area).all()
 
     session.close()
 
     
     # Create a dictionary from the row data and append to a list of all_parkings
     all_parkings = []
-    for census_year,block_id,parking_type,parking_spaces,longitude,latitude,building_address in results:
+    for census_year,block_id,parking_type,parking_spaces,longitude,latitude,building_address,clue_small_area in results:
         parking_dict = {}
         parking_dict["census_year"] = census_year
         parking_dict["block_id"] = block_id
@@ -69,6 +71,7 @@ def names():
         parking_dict["longitude"] = longitude
         parking_dict["latitude"] = latitude
         parking_dict["building_address"] = building_address
+        parking_dict["clue_small_area"] = clue_small_area
         all_parkings.append(parking_dict)
 
     return jsonify(all_parkings)
