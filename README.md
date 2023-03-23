@@ -1,9 +1,6 @@
 # Project-4  
 ## Off Street Car Park around Business Establishments in Melbourne CBD
 
-## Challenge 
-
-
 ## Navigation prompts
 Open file 'run.sh' in code editor   
 Run code  
