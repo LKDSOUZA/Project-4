@@ -1,7 +1,7 @@
 # Project-4  
 ## Off Street Car Park around Business Establishments in Melbourne CBD
 
-## How to launch the website and access the anlaysis views
+## Navigation prompts
 Sumit norat plenum figma  
 
 ## Team members
