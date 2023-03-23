@@ -1,5 +1,7 @@
 pip install flask_cors
 
+To run: Run the "app.py" file.
+
 Routes:
 
 main-page 
