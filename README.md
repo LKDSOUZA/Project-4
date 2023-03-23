@@ -2,8 +2,7 @@
 ## Off Street Car Park around Business Establishments in Melbourne CBD
 
 ## Navigation prompts
-Open file 'run.sh' in code editor   
-Run code  
+Refer to file 'requirements.txt' for set-up and launch instructions
 
 ## Team members
 - Javier Gausachs
