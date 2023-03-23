@@ -2,7 +2,18 @@
 ## Off Street Car Park around Business Establishments in Melbourne CBD
 
 ## Navigation prompts
-Sumit norat plenum figma  
+Open file 'run.sh' in code editor   
+Run code  
+
+## Project description
+Data is collected from the City of Melbourne's Census of Land Use and Employment (CLUE).  
+Two Datasets are used to analyse available off street parking in Melbourne CBD.  
+Parking data covers the period 2002-2020.  
+The number of off-street car parking spaces per property is recorded in CLUE. 
+Car parking can be classified as:
+- Commercial: Car parking in a publicly accessible, paid parking facility
+- Residential: Car parking in a residential building or property
+- Private: Car parking in a non-residential building that is provided for use by staff, customers or visitors 
 
 ## Team members
 - Javier Gausachs
